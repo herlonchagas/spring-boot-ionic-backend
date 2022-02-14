@@ -1,6 +1,7 @@
 package com.nelioalves.cursomc.resources;
 
 import java.net.URI;
+import java.util.Objects;
 
 import javax.servlet.Servlet;
 
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nelioalves.cursomc.domain.Categoria;
 import com.nelioalves.cursomc.services.CategoriaService;
+import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/categorias")
@@ -24,8 +26,9 @@ public class CategoriaResource {
 	private CategoriaService service;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);
+		
 		return ResponseEntity.ok().body(obj);
 	}
 	
@@ -40,6 +43,15 @@ public class CategoriaResource {
 		
 		return ResponseEntity.created(uri).build();
 		
+	}
+	
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id){
+		categoria.setId(id);
+		
+		categoria = service.update(categoria);
+		return ResponseEntity.noContent().build();
 	}
 	
 	
