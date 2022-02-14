@@ -1,6 +1,7 @@
 package com.nelioalves.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.Servlet;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nelioalves.cursomc.domain.Categoria;
+import com.nelioalves.cursomc.dto.CategoriaDTO;
 import com.nelioalves.cursomc.services.CategoriaService;
 import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -60,6 +62,13 @@ public class CategoriaResource {
 		service.delete(id);
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll(){
+		List<CategoriaDTO> list = service.findAllCategoria();
+		
+		return ResponseEntity.ok().body(list);
 	}
 	
 	

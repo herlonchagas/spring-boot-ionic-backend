@@ -1,6 +1,9 @@
 package com.nelioalves.cursomc.services;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
@@ -9,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Categoria;
+import com.nelioalves.cursomc.dto.CategoriaDTO;
+import com.nelioalves.cursomc.mapper.CategoriaMapper;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
 import com.nelioalves.cursomc.services.exceptions.DataIntegrityException;
 import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
@@ -42,9 +47,23 @@ public class CategoriaService {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possivel excluir uma categoria que possui Produtos");
-		} catch (Exception e) {
-			System.out.println("teste");
 		}
 		
+	}
+
+	public List<Categoria> findAll() {
+		
+		return repo.findAll();
+	}
+
+	public List<CategoriaDTO> findAllCategoria() {
+		
+		List<Categoria> list = repo.findAll();
+		List<CategoriaDTO> listDTO = list
+				.stream()
+				.map(categora -> CategoriaMapper.INSTANCE.categoriaToCategoriaDTO(categora))
+				.collect(Collectors.toList());
+	
+		return listDTO;
 	}
 }
