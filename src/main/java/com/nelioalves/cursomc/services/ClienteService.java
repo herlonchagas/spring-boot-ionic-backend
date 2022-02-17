@@ -70,9 +70,7 @@ public class ClienteService {
 		return repo.findAll(pageRequest).map(categora -> ClienteMapper.INSTANCE.clienteToClienteDTO(categora));
 	}
 	
-	private void updateDate(Cliente clienteNew, Cliente cliente) {
-		clienteNew.setEmail(cliente.getEmail());
-		clienteNew.setNome(cliente.getNome());
-		
+	private void updateDate(Cliente clienteNew, Cliente cliente) {		
+		ClienteMapper.INSTANCE.updateClienteFromClientOld(cliente, clienteNew);			
 	}
 }
