@@ -71,6 +71,6 @@ public class ClienteService {
 	}
 	
 	private void updateDate(Cliente clienteNew, Cliente cliente) {		
-		ClienteMapper.INSTANCE.updateClienteFromClientOld(cliente, clienteNew);			
+		ClienteMapper.INSTANCE.updateClienteData(cliente, clienteNew);			
 	}
 }

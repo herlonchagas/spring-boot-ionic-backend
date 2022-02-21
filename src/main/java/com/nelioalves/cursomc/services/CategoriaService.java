@@ -13,8 +13,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Categoria;
+import com.nelioalves.cursomc.domain.Cliente;
 import com.nelioalves.cursomc.dto.CategoriaDTO;
 import com.nelioalves.cursomc.mapper.CategoriaMapper;
+import com.nelioalves.cursomc.mapper.ClienteMapper;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
 import com.nelioalves.cursomc.services.exceptions.DataIntegrityException;
 import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
@@ -35,11 +37,18 @@ public class CategoriaService {
 		categoria.setId(null);
 		return repo.save(categoria);
 	}
-
+//
+//	public Categoria update(Categoria categoria) {
+//		find(categoria.getId());
+//		return repo.save(categoria);
+//	}
+	
 	public Categoria update(Categoria categoria) {
-		find(categoria.getId());
-		return repo.save(categoria);
+		var categoriaeNew = find(categoria.getId());
+		updateDate(categoriaeNew, categoria);
+		return repo.save(categoriaeNew);
 	}
+
 
 	public void delete(Integer id) {
 		find(id);
@@ -73,4 +82,11 @@ public class CategoriaService {
 		
 		return repo.findAll(pageRequest).map(categora -> CategoriaMapper.INSTANCE.categoriaToCategoriaDTO(categora));
 	}
+	
+
+	private void updateDate(Categoria categoriaeNew, Categoria categoria) {
+		CategoriaMapper.INSTANCE.updateCategoriaData(categoria, categoriaeNew);
+		
+	}
+	
 }

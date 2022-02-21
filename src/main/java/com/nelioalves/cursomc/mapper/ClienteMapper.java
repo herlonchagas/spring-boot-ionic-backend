@@ -19,5 +19,5 @@ public interface ClienteMapper {
 	Cliente clienteDTOToCliente(ClienteDTO categoriaDto);
 	
 	@BeanMapping(nullValuePropertyMappingStrategy =  NullValuePropertyMappingStrategy.IGNORE)
-	void updateClienteFromClientOld(Cliente clienteNew, @MappingTarget Cliente cliente);
+	void updateClienteData(Cliente cliente, @MappingTarget Cliente clienteNew);
 }
