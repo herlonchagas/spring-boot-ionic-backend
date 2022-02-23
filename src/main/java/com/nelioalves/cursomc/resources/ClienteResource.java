@@ -1,6 +1,8 @@
 package com.nelioalves.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.Valid;
 
@@ -13,9 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.nelioalves.cursomc.domain.Cidade;
 import com.nelioalves.cursomc.domain.Cliente;
+import com.nelioalves.cursomc.domain.Endereco;
+import com.nelioalves.cursomc.domain.enums.TipoCliente;
 import com.nelioalves.cursomc.dto.ClienteDTO;
+import com.nelioalves.cursomc.dto.ClienteNewDTO;
 import com.nelioalves.cursomc.mapper.ClienteMapper;
 import com.nelioalves.cursomc.services.ClienteService;
 
@@ -32,6 +39,21 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO clienteNewDto){
+		Cliente cliente = service.fromDTO(clienteNewDto);
+		cliente = service.insert(cliente);
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand( cliente.getId())
+				.toUri();
+		
+		return ResponseEntity.created(uri).build();
+		
+	}
+
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO ClienteDTO, @PathVariable Integer id){
@@ -66,4 +88,6 @@ public class ClienteResource {
 		
 		return ResponseEntity.ok().body(list);
 	}
+	
+
 }

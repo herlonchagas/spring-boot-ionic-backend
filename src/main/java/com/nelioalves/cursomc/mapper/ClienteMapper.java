@@ -1,5 +1,7 @@
 package com.nelioalves.cursomc.mapper;
 
+import javax.validation.Valid;
+
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -8,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 
 import com.nelioalves.cursomc.domain.Cliente;
 import com.nelioalves.cursomc.dto.ClienteDTO;
+import com.nelioalves.cursomc.dto.ClienteNewDTO;
 
 @Mapper
 public interface ClienteMapper {
